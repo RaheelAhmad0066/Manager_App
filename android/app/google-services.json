@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1004524825764",
+    "project_id": "manager-a-15371",
+    "storage_bucket": "manager-a-15371.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1004524825764:android:8dc46b8bec9d2e8cc5ca31",
+        "android_client_info": {
+          "package_name": "com.kc.genreteaa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgPpb6XLnVSGD2TOXpDLUr1xsUvpI8_bE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
