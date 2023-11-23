@@ -53,7 +53,6 @@ class MyApp extends StatelessWidget {
           builder: (context, provider) {
             return GetMaterialApp(
               debugShowCheckedModeBanner: false,
-              theme: theme,
               themeMode: context.watch<ThemeProvider>().currentTheme,
               initialRoute: AppRoutes.splashScreen,
               routes: AppRoutes.routes,

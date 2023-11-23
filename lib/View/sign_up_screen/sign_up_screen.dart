@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gerentea/View/login_main_screen/login_main_screen.dart';
 import 'package:gerentea/View/welcome_screen/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gerentea/core/app_export.dart';
@@ -9,12 +11,14 @@ import 'package:get/get.dart';
 import '../../core/utils/image_constant.dart';
 
 import '../../core/utils/size_utils.dart';
+import '../../models/usermodal.dart';
 import '../../theme/custom_text_style.dart';
 import '../../theme/theme_helper.dart';
 import '../../widgets/custom_image_view.dart';
 import '../../Controler/GoogleAuth/GoogleAuth.dart';
 import '../../Controler/Loader/Loader.dart';
 import '../../widgets/custom_elevated_button.dart';
+import '../sign_in_screen/sign_in_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   SignUpScreen({Key? key})
@@ -27,15 +31,12 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController createpasswordController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final AuthController controller = Get.put(AuthController());
-
+  final cont = Get.put(registercontroler());
   final CoustomLoader myController = Get.put(CoustomLoader());
   void _validateEmail() {
-    final email = emailController.text.trim();
+    final email = cont.emailController.text.trim();
     if (email.isEmpty) {
       emailError.value = 'Email is required';
     } else if (!GetUtils.isEmail(email)) {
@@ -48,7 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final emailError = RxString('');
   final passwordError = RxString('');
   void _validatePassword() {
-    final password = createpasswordController.text.trim();
+    final password = cont.createpasswordController.text.trim();
     if (password.isEmpty) {
       passwordError.value = 'Password is required';
     } else if (password.length < 6) {
@@ -60,162 +61,173 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    mediaQueryData = MediaQuery.of(context);
-
+    final h1 = MediaQuery.of(context).size.height;
+    final w1 = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Form(
-          key: _formKey,
-          child: Container(
-            width: 441.h,
-            padding: EdgeInsets.symmetric(vertical: 60.v),
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(18.0),
             child: Obx(
               () => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: SizedBox(
-                      height: 241.v,
-                      width: 233.h,
-                      child: Stack(
-                        alignment: Alignment.topLeft,
-                        children: [
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: Text(
-                              "createa".tr,
-                              style: theme.textTheme.headlineSmall,
-                            ),
-                          ),
-                          CustomImageView(
-                            imagePath: ImageConstant.imgApplogo3,
-                            height: 217.v,
-                            width: 212.h,
-                            alignment: Alignment.topLeft,
-                          ),
-                        ],
-                      ),
-                    ),
+                  SizedBox(
+                    height: h1 * 0.02,
+                  ),
+                  CustomImageView(
+                    imagePath: ImageConstant.imgApplogo3,
+                    height: 217.v,
+                    width: 212.h,
+                  ),
+                  SizedBox(
+                    height: h1 * 0.02,
+                  ),
+                  Text(
+                    "createa".tr,
+                    style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                        color: appTheme.green700, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: h1 * 0.04,
                   ),
                   CustomTextFormField(
-                    controller: userNameController,
-                    margin: EdgeInsets.only(
-                      left: 30.h,
-                      top: 29.v,
-                      right: 25.h,
-                    ),
+                    controller: cont.userNameController,
                     hintText: "entnam".tr,
                     textStyle: TextStyle(fontSize: 17, color: Colors.black),
+                    onsaved: (value) {
+                      cont.userNameController.text = value;
+                    },
+                  ),
+                  SizedBox(
+                    height: h1 * 0.02,
                   ),
                   CustomTextFormField(
-                    controller: emailController,
-                    margin: EdgeInsets.only(
-                      left: 26.h,
-                      top: 47.v,
-                      right: 31.h,
-                    ),
+                    controller: cont.emailController,
                     hintText: "entemail".tr,
                     onChanged: (_) => emailError.value = '',
                     textStyle: TextStyle(fontSize: 17, color: Colors.black),
                     textInputType: TextInputType.emailAddress,
+                    onsaved: (value) {
+                      cont.userNameController.text = value;
+                    },
+                  ),
+                  SizedBox(
+                    height: h1 * 0.02,
                   ),
                   CustomTextFormField(
-                    controller: createpasswordController,
-                    margin: EdgeInsets.only(
-                      left: 32.h,
-                      top: 31.v,
-                      right: 25.h,
-                    ),
+                    controller: cont.createpasswordController,
                     hintText: "Enetpas".tr,
                     textInputAction: TextInputAction.done,
                     onChanged: (_) => passwordError.value = 'error',
                     textStyle: TextStyle(fontSize: 17, color: Colors.black),
                     contentPadding: EdgeInsets.symmetric(horizontal: 3.h),
+                    onsaved: (value) {
+                      cont.userNameController.text = value;
+                    },
                   ),
-                  SizedBox(height: 85.v),
+                  SizedBox(
+                    height: h1 * 0.1,
+                  ),
                   Align(
                     alignment: Alignment.center,
-                    child: myController.isloading.value
-                        ? CircularProgressIndicator(
-                            color: Colors.green,
-                          )
-                        : CustomElevatedButton(
-                            onTap: () async {
-                              _validateEmail();
-                              _validatePassword();
-                              final auth = FirebaseAuth.instance;
-                              final user = auth.currentUser;
-                              user?.updateDisplayName(userNameController.text);
-                              user?.updateEmail(emailController.text);
-                              _formKey.currentState!.validate();
-                              if (_formKey.currentState!.validate()) {
-                                myController.loader();
-
-                                try {
-                                  await FirebaseAuth.instance
-                                      .createUserWithEmailAndPassword(
-                                    email: emailController.text,
-                                    password: createpasswordController.text,
-                                  );
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: ((context) =>
-                                              WelcomeScreen())),
-                                      (route) => false);
-                                  Get.snackbar('Good', 'Succfully Ragisterd');
-                                } catch (e) {
-                                  Get.snackbar('Error', 'User not ragister');
-                                }
-                              }
-                            },
-                            height: 41.v,
-                            width: 192.h,
-                            text: "Sign".tr,
-                            buttonStyle: CustomButtonStyles.fillGreenTL20,
-                            buttonTextStyle: CustomTextStyles
-                                .headlineMediumOnPrimaryContainer,
-                          ),
-                  ),
-                  SizedBox(height: 15.v),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "already".tr,
-                          style: CustomTextStyles.bodyMediumInter_1,
-                        ),
-                        TextSpan(
-                          text: "Logi".tr,
-                          style: theme.textTheme.titleSmall,
-                        ),
-                      ],
+                    child: Obx(
+                      () => cont.isLoading.value
+                          ? CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                          : CustomElevatedButton(
+                              onTap: () async {
+                                _validateEmail();
+                                _validatePassword();
+                                cont.register(context);
+                              },
+                              height: 41.v,
+                              width: 192.h,
+                              text: "Sign".tr,
+                              buttonStyle: CustomButtonStyles.fillGreenTL20,
+                              buttonTextStyle: CustomTextStyles
+                                  .headlineMediumOnPrimaryContainer,
+                            ),
                     ),
-                    textAlign: TextAlign.left,
                   ),
-                  SizedBox(height: 29.v),
+                  SizedBox(
+                    height: h1 * 0.02,
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "OR".tr,
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          color: appTheme.gray400, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  SizedBox(
+                    height: h1 * 0.02,
+                  ),
                   myController.isloader.value
                       ? CircularProgressIndicator(
                           color: Colors.green,
                         )
-                      : CustomOutlinedButton(
-                          onTap: () {
-                            myController.Googleauth();
-                            controller.handleSignInAndNavigateToHome(context);
-                          },
-                          width: 224.h,
-                          text: "continue".tr,
-                          leftIcon: Container(
-                            margin: EdgeInsets.only(right: 2.h),
-                            child: CustomImageView(
-                              imagePath: ImageConstant.imgGoogleicon1,
-                              height: 29.adaptSize,
-                              width: 29.adaptSize,
+                      : Align(
+                          alignment: Alignment.center,
+                          child: CustomOutlinedButton(
+                            buttonStyle: ButtonStyle(
+                              side: MaterialStateProperty.all<BorderSide>(
+                                  BorderSide(
+                                      width: 2, color: appTheme.gray400)),
+                            ),
+                            onTap: () {
+                              myController.Googleauth();
+                              controller.handleSignInAndNavigateToHome(context);
+                            },
+                            width: 224.h,
+                            text: "continue".tr,
+                            leftIcon: Container(
+                              margin: EdgeInsets.only(right: 2.h),
+                              child: CustomImageView(
+                                imagePath: ImageConstant.imgGoogleicon1,
+                                height: 29.adaptSize,
+                                width: 29.adaptSize,
+                              ),
                             ),
                           ),
                         ),
-                  SizedBox(height: 5.v),
+                  SizedBox(
+                    height: h1 * 0.02,
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "already".tr,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(
+                                  color: appTheme.gray400,
+                                  fontWeight: FontWeight.bold),
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              Get.to(SignInScreen());
+                            },
+                            child: Text(
+                              "Logi".tr,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge!
+                                  .copyWith(
+                                      color: appTheme.green700,
+                                      fontWeight: FontWeight.bold),
+                            ))
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

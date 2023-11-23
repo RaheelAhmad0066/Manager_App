@@ -54,6 +54,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   flutter_spinkit: ^5.2.0
   change_app_package_name: ^1.1.0
+  cloud_firestore: ^4.13.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

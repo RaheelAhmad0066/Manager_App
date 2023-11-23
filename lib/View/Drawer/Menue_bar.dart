@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:gerentea/core/utils/size_utils.dart';
 
 import '../../Controler/GoogleAuth/GoogleAuth.dart';
 import '../../core/utils/image_constant.dart';
+import '../../models/usermodal.dart';
 import '../../routes/app_routes.dart';
 import '../../theme/theme_helper.dart';
 import '../../widgets/custom_image_view.dart';
@@ -28,70 +30,92 @@ class Menue_bar extends StatefulWidget {
 class _Menue_barState extends State<Menue_bar> {
   final AuthController _controller = Get.put(AuthController());
 
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      this.loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final User? user = FirebaseAuth.instance.currentUser;
 
-    String displayText = user?.displayName ?? "No Name Available";
-    String useremail = user?.email ?? "No Name Available";
     return Drawer(
       child: Column(
         children: [
           SizedBox(
             height: 60.h,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: CircleAvatar(
-                    backgroundColor: appTheme.gray400,
-                    radius: 40,
-                    child: Icon(
-                      Icons.person,
-                      size: 20,
-                      color: Colors.white,
-                    )),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    displayText,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5, bottom: 5),
-                    child: Text(
-                      useremail,
-                      style: TextStyle(color: Colors.grey, fontSize: 15),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      _controller.signOut(context);
-                    },
-                    child: Container(
-                      height: 34.h,
-                      width: 130.v,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: Colors.black),
-                      child: Center(
-                        child: Text(
-                          'Logout'.tr,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
-                        ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: CircleAvatar(
+                      backgroundColor: appTheme.gray400,
+                      radius: 40,
+                      child: Icon(
+                        Icons.person,
+                        size: 20,
+                        color: Colors.white,
+                      )),
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.04),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      user?.displayName ?? loggedInUser.firstName ?? 'Name...',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.grey,
                       ),
                     ),
-                  )
-                ],
-              )
-            ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5, bottom: 5),
+                      child: Text(
+                        user?.email ?? loggedInUser.email ?? 'jk',
+                        style: TextStyle(color: Colors.grey, fontSize: 15),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        _controller.signOut(context);
+                      },
+                      child: Container(
+                        height: 34.h,
+                        width: 130.v,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            color: Colors.black),
+                        child: Center(
+                          child: Text(
+                            'Logout'.tr,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
           Divider(color: Colors.grey),
           SizedBox(

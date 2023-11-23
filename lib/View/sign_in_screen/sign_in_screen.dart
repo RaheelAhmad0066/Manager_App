@@ -4,16 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gerentea/core/app_export.dart';
 import 'package:gerentea/widgets/custom_elevated_button.dart';
-import 'package:gerentea/widgets/custom_outlined_button.dart';
+
 import 'package:gerentea/widgets/custom_text_form_field.dart';
 import '../../core/utils/image_constant.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../core/utils/size_utils.dart';
-import '../../theme/custom_text_style.dart';
-import '../../theme/theme_helper.dart';
-import '../../widgets/custom_image_view.dart';
+import 'package:flutter/cupertino.dart';
+
 import '../../Controler/GoogleAuth/GoogleAuth.dart';
 import '../../Controler/Loader/Loader.dart';
+import '../../models/usermodal.dart';
+import '../forgot_password_screen/forgot_password_screen.dart';
+import '../sign_up_screen/sign_up_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   SignInScreen({Key? key})
@@ -35,19 +37,20 @@ class _SignInScreenState extends State<SignInScreen> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    mediaQueryData = MediaQuery.of(context);
+    final h1 = MediaQuery.of(context).size.height;
+    final w1 = MediaQuery.of(context).size.width;
 
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Form(
-          key: _formKey,
-          child: Obx(
-            () => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 27),
-              child: Column(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Obx(
+              () => Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(height: h1 * 0.05),
                   CustomImageView(
                     imagePath: ImageConstant.imgApplogo2,
                     height: 217.v,
@@ -58,7 +61,12 @@ class _SignInScreenState extends State<SignInScreen> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       "welcome".tr,
-                      style: theme.textTheme.headlineSmall,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium!
+                          .copyWith(
+                              color: appTheme.green700,
+                              fontWeight: FontWeight.bold),
                     ),
                   ),
                   Padding(padding: EdgeInsets.only(top: 13)),
@@ -69,30 +77,40 @@ class _SignInScreenState extends State<SignInScreen> {
                       style: theme.textTheme.labelLarge,
                     ),
                   ),
+                  SizedBox(
+                    height: h1 * 0.05,
+                  ),
                   CustomTextFormField(
                     controller: EmailControler,
-                    margin: EdgeInsets.only(
-                      left: 32.h,
-                      top: 64.v,
-                      right: 28.h,
-                    ),
                     hintText: "entemail".tr,
                     textStyle: TextStyle(fontSize: 17, color: Colors.black),
                     contentPadding: EdgeInsets.symmetric(horizontal: 9.h),
                   ),
+                  SizedBox(
+                    height: h1 * 0.04,
+                  ),
                   CustomTextFormField(
                     controller: passwordController,
-                    margin: EdgeInsets.only(
-                      left: 26.h,
-                      top: 40.v,
-                      right: 34.h,
-                    ),
                     hintText: "Enetpas".tr,
                     textStyle: TextStyle(fontSize: 17, color: Colors.black),
                     textInputAction: TextInputAction.done,
                     textInputType: TextInputType.visiblePassword,
                     obscureText: true,
                     contentPadding: EdgeInsets.symmetric(horizontal: 9.h),
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: TextButton(
+                      onPressed: () {
+                        Get.to(ForgotPasswordScreen());
+                      },
+                      child: Text(
+                        "Forget".tr,
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                            color: appTheme.green700,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ),
                   SizedBox(height: 97.v),
                   myController.isloading.value
@@ -142,46 +160,36 @@ class _SignInScreenState extends State<SignInScreen> {
                             style: CustomTextStyles.bodyLarge16)),
                   ),
                   SizedBox(height: 2.v),
-                  RichText(
-                    text: TextSpan(
+                  Align(
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TextSpan(
-                          text: "Or",
-                          style: theme.textTheme.bodySmall,
+                        Text(
+                          "You do not have an account please".tr,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(
+                                  color: appTheme.gray400,
+                                  fontWeight: FontWeight.bold),
                         ),
-                        TextSpan(
-                          text: " ",
-                        ),
-                        TextSpan(
-                          text: "new".tr,
-                          style: theme.textTheme.labelMedium,
-                        ),
+                        TextButton(
+                            onPressed: () {
+                              Get.to(SignUpScreen());
+                            },
+                            child: Text(
+                              "Sign".tr,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge!
+                                  .copyWith(
+                                      color: appTheme.green700,
+                                      fontWeight: FontWeight.bold),
+                            ))
                       ],
                     ),
-                    textAlign: TextAlign.left,
                   ),
-                  SizedBox(height: 18.v),
-                  myController.isloader.value
-                      ? CircularProgressIndicator(
-                          color: Colors.green,
-                        )
-                      : CustomOutlinedButton(
-                          onTap: () {
-                            myController.Googleauth();
-                            controller.handleSignInAndNavigateToHome(context);
-                          },
-                          width: 224.h,
-                          text: "continue".tr,
-                          leftIcon: Container(
-                            margin: EdgeInsets.only(right: 2.h),
-                            child: CustomImageView(
-                              imagePath: ImageConstant.imgGoogleicon1,
-                              height: 29.adaptSize,
-                              width: 29.adaptSize,
-                            ),
-                          ),
-                        ),
-                  SizedBox(height: 5.v),
                 ],
               ),
             ),

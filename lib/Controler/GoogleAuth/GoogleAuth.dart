@@ -1,11 +1,14 @@
 // ignore_for_file: depend_on_referenced_packages
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gerentea/View/Homepage/home_page.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gerentea/View/welcome_screen/welcome_screen.dart';
 import 'package:gerentea/core/constants/userdata.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../models/usermodal.dart';
 import '../../routes/app_routes.dart';
 
 class AuthController extends GetxController {
@@ -77,5 +80,55 @@ class AuthController extends GetxController {
     user.value = null;
     Navigator.pushNamedAndRemoveUntil(
         context, AppRoutes.loginMainScreen, (route) => false);
+  }
+}
+
+class registercontroler extends GetxController {
+  RxBool isLoading = false.obs;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController createpasswordController = TextEditingController();
+  void register(BuildContext context) async {
+    try {
+      isLoading.value = true;
+      await _auth
+          .createUserWithEmailAndPassword(
+            email: emailController.text.trim(),
+            password: createpasswordController.text,
+          )
+          .then((value) => postDetailsToFirestore());
+      // Additional logic for saving user details, if needed
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: ((context) => HomePage())),
+          (route) => false);
+      Get.snackbar('Success', 'Registration successful');
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void postDetailsToFirestore() async {
+    // calling our firestore
+    // calling our user model
+    // sedning these values
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    UserModel userModel = UserModel();
+
+    // writing all the values
+    userModel.email = user!.email;
+    userModel.uid = user.uid;
+    userModel.firstName = userNameController.text;
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap());
   }
 }

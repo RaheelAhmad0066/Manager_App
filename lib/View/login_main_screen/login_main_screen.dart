@@ -71,11 +71,13 @@ class LoginMainScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: CustomElevatedButton(
+                      buttonStyle: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              appTheme.green700)),
                       onTap: (() {
                         Navigator.pushNamed(context, AppRoutes.signUpScreen);
                       }),
                       text: "reg".tr,
-                      margin: EdgeInsets.only(right: 12.h),
                     ),
                   ),
                   Expanded(

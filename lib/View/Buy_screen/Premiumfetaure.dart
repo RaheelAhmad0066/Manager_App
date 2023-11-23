@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:gerentea/core/utils/size_utils.dart';
 import 'package:get/get.dart';
 import 'package:gerentea/core/app_export.dart';
@@ -29,63 +30,9 @@ class BuyScreen extends StatefulWidget {
 class _BuyScreenState extends State<BuyScreen> {
   String os = Platform.operatingSystem;
 
-  var applePayButton = ApplePayButton(
-    paymentConfiguration: PaymentConfiguration.fromJsonString(defaultApplePay),
-    paymentItems: const [
-      PaymentItem(
-        label: 'Premium Version',
-        amount: '97.99',
-        status: PaymentItemStatus.final_price,
-      ),
-      PaymentItem(
-        label: 'Total',
-        amount: '97.99',
-        status: PaymentItemStatus.final_price,
-      )
-    ],
-    style: ApplePayButtonStyle.black,
-    width: double.infinity,
-    height: 50,
-    type: ApplePayButtonType.buy,
-    margin: const EdgeInsets.only(top: 15.0),
-    onPaymentResult: (result) => debugPrint('Payment Result $result'),
-    loadingIndicator: const Center(
-      child: CircularProgressIndicator(),
-    ),
-  );
-
-  var googlePayButton = GooglePayButton(
-    paymentConfiguration: PaymentConfiguration.fromJsonString(defaultGooglePay),
-    paymentItems: const [
-      PaymentItem(
-        label: 'Premium Version',
-        amount: '47.99',
-        status: PaymentItemStatus.final_price,
-      ),
-      PaymentItem(
-        label: 'Total',
-        amount: '47.99',
-        status: PaymentItemStatus.final_price,
-      ),
-    ],
-    type: GooglePayButtonType.pay,
-    margin: const EdgeInsets.only(top: 15.0),
-    onPaymentResult: (result) => debugPrint('Payment Result $result'),
-    loadingIndicator: const Center(
-      child: CircularProgressIndicator(),
-    ),
-  );
   final MyAnimationController animationcont = Get.put(MyAnimationController());
 
-  int selectedRadio = 1;
-
-  void handleRadioValueChange(int value) {
-    setState(() {
-      selectedRadio = value;
-    });
-  }
-
-  num? selectedValue = 0;
+  var selectedprice = 47.99;
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
@@ -195,11 +142,11 @@ class _BuyScreenState extends State<BuyScreen> {
                                 children: <Widget>[
                                   Radio(
                                     value: 47.99,
-                                    groupValue: selectedRadio,
+                                    groupValue: selectedprice,
                                     activeColor: Colors.green,
                                     onChanged: (value) {
                                       setState(() {
-                                        selectedValue = value;
+                                        selectedprice = value!;
                                       });
                                     },
                                   ),
@@ -217,10 +164,10 @@ class _BuyScreenState extends State<BuyScreen> {
                                   Radio(
                                     activeColor: Colors.green,
                                     value: 97.99,
-                                    groupValue: selectedRadio,
+                                    groupValue: selectedprice,
                                     onChanged: (value) {
                                       setState(() {
-                                        selectedValue = value;
+                                        selectedprice = value!;
                                       });
                                     },
                                   ),
@@ -234,9 +181,23 @@ class _BuyScreenState extends State<BuyScreen> {
                                 ],
                               ),
                               SizedBox(height: 82.v),
-                              CustomRatingBar(
-                                alignment: Alignment.center,
-                                initialRating: 0,
+                              Center(
+                                child: RatingBar.builder(
+                                  initialRating: 3,
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 3,
+                                  itemPadding:
+                                      EdgeInsets.symmetric(horizontal: 4.0),
+                                  itemBuilder: (context, _) => Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                                  onRatingUpdate: (rating) {
+                                    print(rating);
+                                  },
+                                ),
                               ),
                               SizedBox(height: 12.v),
                             ],
@@ -256,8 +217,73 @@ class _BuyScreenState extends State<BuyScreen> {
                                   padding: const EdgeInsets.all(10),
                                   child: Center(
                                       child: Platform.isIOS
-                                          ? applePayButton
-                                          : googlePayButton),
+                                          ? ApplePayButton(
+                                              paymentConfiguration:
+                                                  PaymentConfiguration
+                                                      .fromJsonString(
+                                                          defaultApplePay),
+                                              paymentItems: [
+                                                PaymentItem(
+                                                  label: 'Premium Version',
+                                                  amount:
+                                                      selectedprice.toString(),
+                                                  status: PaymentItemStatus
+                                                      .final_price,
+                                                ),
+                                                PaymentItem(
+                                                  label: 'Total',
+                                                  amount:
+                                                      selectedprice.toString(),
+                                                  status: PaymentItemStatus
+                                                      .final_price,
+                                                )
+                                              ],
+                                              style: ApplePayButtonStyle.black,
+                                              width: double.infinity,
+                                              height: 50,
+                                              type: ApplePayButtonType.buy,
+                                              margin: const EdgeInsets.only(
+                                                  top: 15.0),
+                                              onPaymentResult: (result) =>
+                                                  debugPrint(
+                                                      'Payment Result $result'),
+                                              loadingIndicator: const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              ),
+                                            )
+                                          : GooglePayButton(
+                                              paymentConfiguration:
+                                                  PaymentConfiguration
+                                                      .fromJsonString(
+                                                          defaultGooglePay),
+                                              paymentItems: [
+                                                PaymentItem(
+                                                  label: 'Premium {Version}',
+                                                  amount:
+                                                      selectedprice.toString(),
+                                                  status: PaymentItemStatus
+                                                      .final_price,
+                                                ),
+                                                PaymentItem(
+                                                  label: 'Total',
+                                                  amount:
+                                                      selectedprice.toString(),
+                                                  status: PaymentItemStatus
+                                                      .final_price,
+                                                ),
+                                              ],
+                                              type: GooglePayButtonType.pay,
+                                              margin: const EdgeInsets.only(
+                                                  top: 15.0),
+                                              onPaymentResult: (result) =>
+                                                  debugPrint(
+                                                      'Payment Result $result'),
+                                              loadingIndicator: const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              ),
+                                            )),
                                 )),
                             CustomElevatedButton(
                               onTap: () {

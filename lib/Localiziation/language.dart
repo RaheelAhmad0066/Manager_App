@@ -30,9 +30,15 @@ class Language extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {
-          "Apbartitle": "Talk ",
-          "Apbartitle1": "with Gerente-A",
+          "Apbartitle": "Talk with Gerente-A",
           "Hometitle": "Gerente-A",
+          'noaccount': 'You do not have an Account please',
+          'em': 'Email',
+          'cod': 'Get Code',
+          'desFor':
+              'Enter your email and we will send you a code to reset your password.',
+          'Forget': 'Forget Password?',
+          'Forget1': 'Forgot your Password?',
           "Hometitlebox1":
               "Gerente-A It is an artificial intelligence created thanks to the technology of Dante.AI",
           "Hometitlebox2":
@@ -119,11 +125,17 @@ class Language extends Translations {
               ' Your Privacy Policy Text Goes Here\nThis is where you should provide detailed information about your data collection, usage, and storage policies.\nYou may want to include information about:\n- What data you collect (e.g., user messages, user information\n- How you use the collected data\n- How you store and protect the data\n- Third-party services and their privacy policies (if applicable)\n- User consent and optout options\n- Contact information for privacy-related inquiries\n\nRemember to comply with relevant privacy laws and regulations.'
         },
         'es_ES': {
-          "Apbartitle": "Hablar ",
-          "Apbartitle1": "con Gerente-A",
+          "Apbartitle": "Hablar con Gerente-A",
           "Hometitle": "Gerente-A",
           'Logi': 'acceso',
           'start': 'empezar con',
+          'noaccount': 'No tienes una cuenta por favor',
+          'em': 'Correo electrónico',
+          'cod': 'Obtener código',
+          'desFor':
+              'Ingresa tu correo electrónico y te enviaremos un código para restablecer tu contraseña.',
+          'Forget': '¿Contraseña olvidada?',
+          'Forget1': '¿Olvidaste tu contraseña?',
           'lu': 'Pruebe diferentes indicaciones y modos de idioma.',
           "Hometitlebox1":
               "Gerente-A es una inteligencia artificial creada gracias a la tecnología de Dante.AI",

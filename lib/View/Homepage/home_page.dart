@@ -64,9 +64,10 @@ class _HomePageState extends State<HomePage> {
     Fluttertoast.showToast(
       msg: message,
       toastLength: Toast.LENGTH_SHORT, // You can also use Toast.LENGTH_LONG
-      gravity: ToastGravity.TOP,
+      gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 2,
-      backgroundColor: Colors.green.withOpacity(0.8),
+
+      backgroundColor: Colors.grey.withOpacity(0.8),
       textColor: Colors.white,
     );
   }
@@ -179,95 +180,80 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       drawer: Menue_bar(),
       appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                getknowledgebase();
-                conversation();
-                modalcreate();
-                getSavedText();
-                _showToast('Reload');
-              },
-              icon: Icon(
-                Icons.refresh,
-                color: Colors.white,
-              )),
-          PopupMenuButton(
-              onSelected: (value) {
-                if (value == 1) {
-                  context.read<MessageProvider>().clearMessages(context);
-                }
-                if (value == 2) {
-                  Get.updateLocale(Locale('es', 'ES'));
-                }
-                if (value == 3) {
-                  Get.updateLocale(Locale('en', 'US'));
-                }
-              },
-              icon: const Icon(
-                Icons.more_vert,
-                color: Colors.white,
-              ),
-              itemBuilder: (context) => [
-                    PopupMenuItem(
-                      value: 1,
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.delete,
-                            color: Colors.red,
-                          ),
-                          Text("Clearchat".tr,
-                              style: TextStyle(color: Colors.black)),
-                        ],
+          actions: [
+            IconButton(
+                onPressed: () {
+                  getknowledgebase();
+                  conversation();
+                  modalcreate();
+                  getSavedText();
+                  _showToast('Reloaded');
+                },
+                icon: Icon(
+                  Icons.refresh,
+                  color: Colors.white,
+                )),
+            PopupMenuButton(
+                onSelected: (value) {
+                  if (value == 1) {
+                    context.read<MessageProvider>().clearMessages(context);
+                  }
+                  if (value == 2) {
+                    Get.updateLocale(Locale('es', 'ES'));
+                  }
+                  if (value == 3) {
+                    Get.updateLocale(Locale('en', 'US'));
+                  }
+                },
+                icon: const Icon(
+                  Icons.more_vert,
+                  color: Colors.white,
+                ),
+                itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: 1,
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ),
+                            Text("Clearchat".tr,
+                                style: TextStyle(color: Colors.black)),
+                          ],
+                        ),
                       ),
-                    ),
-                    PopupMenuItem(
-                      value: 2,
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.translate,
-                            color: Colors.green,
-                          ),
-                          Text("Spanish",
-                              style: TextStyle(color: Colors.black)),
-                        ],
+                      PopupMenuItem(
+                        value: 2,
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.translate,
+                              color: Colors.green,
+                            ),
+                            Text("Spanish",
+                                style: TextStyle(color: Colors.black)),
+                          ],
+                        ),
                       ),
-                    ),
-                    PopupMenuItem(
-                      value: 3,
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.translate,
-                            color: Colors.green,
-                          ),
-                          Text("English",
-                              style: TextStyle(color: Colors.black)),
-                        ],
+                      PopupMenuItem(
+                        value: 3,
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.translate,
+                              color: Colors.green,
+                            ),
+                            Text("English",
+                                style: TextStyle(color: Colors.black)),
+                          ],
+                        ),
                       ),
-                    ),
-                  ])
-        ],
-        backgroundColor: appTheme.green700,
-        centerTitle: true,
-        title: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: "Apbartitle".tr,
-                style: theme.textTheme.headlineMedium!.copyWith(fontSize: 24.v),
-              ),
-              TextSpan(
-                text: "Apbartitle1".tr,
-                style: theme.textTheme.headlineMedium!.copyWith(fontSize: 24.v),
-              ),
-            ],
-          ),
-          textAlign: TextAlign.left,
-        ),
-      ), //this appBar is in widgets folder
+                    ])
+          ],
+          backgroundColor: appTheme.green700,
+          centerTitle: true,
+          title: Text('Apbartitle'.tr)), //this appBar is in widgets folder
       body: RefreshIndicator(
         color: appTheme.green700,
         onRefresh: getknowledgebase,

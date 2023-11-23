@@ -51,8 +51,9 @@ class ForgotPasswordScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 44.v),
                 Text(
-                  "Forgot your password",
-                  style: CustomTextStyles.headlineSmallActorBlack900,
+                  "Forget1".tr,
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                      color: appTheme.black900, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   width: 255.h,
@@ -62,7 +63,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     right: 55.h,
                   ),
                   child: Text(
-                    "Enter your email and we will send you a code to reset your password.",
+                    "desFor".tr,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
@@ -87,7 +88,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Email",
+                        "em".tr,
                         style: CustomTextStyles.bodyMediumOnPrimaryContainer,
                       ),
                       SizedBox(height: 6.v),
@@ -130,7 +131,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                                   }
                                 },
                                 height: 44.v,
-                                text: "Get code",
+                                text: "cod".tr,
                                 margin:
                                     EdgeInsets.fromLTRB(28.h, 37.v, 29.h, 19.v),
                                 buttonStyle: CustomButtonStyles.fillGray,

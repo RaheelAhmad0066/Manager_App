@@ -31,6 +31,7 @@ class CustomTextFormField extends StatelessWidget {
       this.fillColor,
       this.filled = true,
       this.validator,
+      this.onsaved,
       this.onChanged})
       : super(
           key: key,
@@ -78,6 +79,7 @@ class CustomTextFormField extends StatelessWidget {
 
   final bool? filled;
   final ValueChanged<String>? onChanged;
+  final ValueChanged? onsaved;
   final FormFieldValidator<String>? validator;
 
   @override
@@ -105,6 +107,7 @@ class CustomTextFormField extends StatelessWidget {
           maxLines: maxLines ?? 1,
           decoration: decoration,
           validator: validator,
+          onSaved: onsaved,
         ),
       );
   static OutlineInputBorder get fillGreen => OutlineInputBorder(
