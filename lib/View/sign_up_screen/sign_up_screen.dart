@@ -135,9 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     alignment: Alignment.center,
                     child: Obx(
                       () => cont.isLoading.value
-                          ? CircularProgressIndicator(
-                              color: Colors.white,
-                            )
+                          ? CircularProgressIndicator(color: appTheme.green700)
                           : CustomElevatedButton(
                               onTap: () async {
                                 _validateEmail();
@@ -167,13 +165,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(
                     height: h1 * 0.02,
                   ),
-                  myController.isloader.value
-                      ? CircularProgressIndicator(
-                          color: Colors.green,
-                        )
-                      : Align(
-                          alignment: Alignment.center,
-                          child: CustomOutlinedButton(
+                  Align(
+                    alignment: Alignment.center,
+                    child: myController.isloader.value
+                        ? CircularProgressIndicator(
+                            color: Colors.green,
+                          )
+                        : CustomOutlinedButton(
                             buttonStyle: ButtonStyle(
                               side: MaterialStateProperty.all<BorderSide>(
                                   BorderSide(
@@ -194,7 +192,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ),
                           ),
-                        ),
+                  ),
                   SizedBox(
                     height: h1 * 0.02,
                   ),

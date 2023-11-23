@@ -64,13 +64,16 @@ class _Menue_barState extends State<Menue_bar> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(50),
                   child: CircleAvatar(
-                      backgroundColor: appTheme.gray400,
-                      radius: 40,
-                      child: Icon(
-                        Icons.person,
-                        size: 20,
-                        color: Colors.white,
-                      )),
+                    backgroundColor: appTheme.gray400,
+                    radius: 40,
+                    child: user?.photoURL != null
+                        ? Image.network(user!.photoURL.toString())
+                        : Icon(
+                            Icons.person,
+                            size: 50,
+                            color: Colors.black,
+                          ),
+                  ),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.04),
                 Column(
@@ -88,7 +91,8 @@ class _Menue_barState extends State<Menue_bar> {
                       padding: const EdgeInsets.only(top: 5, bottom: 5),
                       child: Text(
                         user?.email ?? loggedInUser.email ?? 'jk',
-                        style: TextStyle(color: Colors.grey, fontSize: 15),
+                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     InkWell(
