@@ -49,7 +49,7 @@ class _Menue_barState extends State<Menue_bar> {
 
   @override
   Widget build(BuildContext context) {
-    final User? user = FirebaseAuth.instance.currentUser;
+  
 
     return Drawer(
       child: Column(

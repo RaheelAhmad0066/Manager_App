@@ -514,7 +514,7 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.circular(30),
                             borderSide:
                                 BorderSide(color: Colors.white, width: 2)),
-                        border: OutlineInputBorder(
+                        focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30),
                             borderSide:
                                 BorderSide(color: Colors.white, width: 2)),

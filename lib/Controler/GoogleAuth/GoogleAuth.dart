@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gerentea/View/Homepage/home_page.dart';
+
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gerentea/View/welcome_screen/welcome_screen.dart';
@@ -49,10 +49,6 @@ class AuthController extends GetxController {
         if (userCredential != null) {
           print('Signed in as: ${userCredential.user?.displayName}');
           print('User ID: ${userCredential.user?.uid}');
-          name = userCredential.user?.displayName ?? '';
-
-          email = userCredential.user?.email ?? '';
-          image = userCredential.user?.photoURL ?? '';
 
           // Store user information in SharedPreferences
           final prefs = await SharedPreferences.getInstance();
@@ -101,7 +97,7 @@ class registercontroler extends GetxController {
       // Additional logic for saving user details, if needed
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: ((context) => HomePage())),
+          MaterialPageRoute(builder: ((context) => WelcomeScreen())),
           (route) => false);
       Get.snackbar('Success', 'Registration successful');
     } catch (e) {

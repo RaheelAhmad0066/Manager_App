@@ -19,57 +19,49 @@ class LoginMainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    mediaQueryData = MediaQuery.of(context);
+    double h1 = MediaQuery.of(context).size.height;
+    double w1 = MediaQuery.of(context).size.width;
 
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          width: 441.h,
-          padding: EdgeInsets.symmetric(horizontal: 60.h),
+        body: Padding(
+          padding: const EdgeInsets.all(15.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: 30.h,
+                height: h1 * 0.05,
               ),
               CustomImageView(
                 imagePath: ImageConstant.imgApplogo1,
-                height: 227.v,
-                width: 219.h,
+                height: h1 * 0.2,
+                width: w1 * 0.3,
               ),
-              Container(
-                width: 245.h,
-                margin: EdgeInsets.only(
-                  left: 3.h,
-                  top: 53.v,
-                  right: 1.h,
+              SizedBox(
+                height: h1 * 0.05,
+              ),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "ragister".tr,
+                      style: theme.textTheme.headlineLarge,
+                    ),
+                    TextSpan(
+                      text: "Gerente-A",
+                      style: CustomTextStyles.headlineLargeRegular,
+                    ),
+                  ],
                 ),
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "ragister".tr,
-                        style: theme.textTheme.headlineLarge,
-                      ),
-                      TextSpan(
-                        text: "Gerente-A",
-                        style: CustomTextStyles.headlineLargeRegular,
-                      ),
-                    ],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                textAlign: TextAlign.center,
               ),
-              SizedBox(height: 5.v),
-              Text(
-                "Do you have an account?",
-                style: theme.textTheme.titleLarge,
+              SizedBox(
+                height: h1 * 0.3,
               ),
-              Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
+                  Container(
+                    width: w1 * 0.4,
                     child: CustomElevatedButton(
                       buttonStyle: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
@@ -80,7 +72,8 @@ class LoginMainScreen extends StatelessWidget {
                       text: "reg".tr,
                     ),
                   ),
-                  Expanded(
+                  Container(
+                    width: w1 * 0.4,
                     child: CustomOutlinedButton(
                       onTap: (() {
                         Navigator.pushNamed(context, AppRoutes.signInScreen);
@@ -95,20 +88,23 @@ class LoginMainScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 39.v),
+              SizedBox(
+                height: h1 * 0.1,
+              ),
               RichText(
                 text: TextSpan(
                   children: [
                     TextSpan(
                       text: "aa".tr,
-                      style: CustomTextStyles.bodyLargeJostGray60001,
+                      style: TextStyle(color: Colors.grey, fontSize: 14),
                     ),
                     TextSpan(
                       text: " ",
                     ),
                     TextSpan(
                       text: "Logi".tr,
-                      style: CustomTextStyles.titleMediumBold.copyWith(
+                      style: CustomTextStyles.titleLargeLexendDecaGreen700
+                          .copyWith(
                         decoration: TextDecoration.underline,
                       ),
                     ),
@@ -116,7 +112,6 @@ class LoginMainScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.left,
               ),
-              SizedBox(height: 35.v),
             ],
           ),
         ),

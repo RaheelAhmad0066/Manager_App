@@ -112,7 +112,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 97.v),
+                  SizedBox(height: h1 * 0.05),
                   myController.isloading.value
                       ? CircularProgressIndicator(
                           color: Colors.lightGreenAccent,
@@ -149,7 +149,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           buttonTextStyle:
                               CustomTextStyles.headlineMediumOnPrimaryContainer,
                         ),
-                  SizedBox(height: 12.v),
+                  SizedBox(height: h1 * 0.01),
                   Align(
                     alignment: Alignment.center,
                     child: TextButton(
@@ -159,7 +159,6 @@ class _SignInScreenState extends State<SignInScreen> {
                         child: Text('Forgotten Passwoard?',
                             style: CustomTextStyles.bodyLarge16)),
                   ),
-                  SizedBox(height: 2.v),
                   Align(
                     alignment: Alignment.center,
                     child: Row(
