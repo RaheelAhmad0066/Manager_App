@@ -52,6 +52,7 @@ class MyApp extends StatelessWidget {
           create: (context) => ThemeProvider(isDark!),
           builder: (context, provider) {
             return GetMaterialApp(
+              theme: theme,
               debugShowCheckedModeBanner: false,
               themeMode: context.watch<ThemeProvider>().currentTheme,
               initialRoute: AppRoutes.splashScreen,

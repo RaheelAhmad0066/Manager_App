@@ -49,9 +49,8 @@ class _Menue_barState extends State<Menue_bar> {
 
   @override
   Widget build(BuildContext context) {
-  
-
     return Drawer(
+      backgroundColor: Colors.white,
       child: Column(
         children: [
           SizedBox(
@@ -84,14 +83,14 @@ class _Menue_barState extends State<Menue_bar> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
-                        color: Colors.grey,
+                        color: Colors.black,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 5, bottom: 5),
                       child: Text(
                         user?.email ?? loggedInUser.email ?? 'jk',
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                        style: TextStyle(color: Colors.black, fontSize: 12),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -101,7 +100,7 @@ class _Menue_barState extends State<Menue_bar> {
                       },
                       child: Container(
                         height: 34.h,
-                        width: 130.v,
+                        width: 140.v,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
                             color: Colors.black),

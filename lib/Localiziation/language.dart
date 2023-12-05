@@ -111,7 +111,7 @@ class Language extends Translations {
           'features': 'Features:',
           'unlimited': 'Basic version 47,99€\nUnlimited questions',
           'unli':
-              'Premium version 97,99€\nUnlimited questions + 2 legal advices',
+              'Premium version 97,99€\nUnlimited questions + 2 legal\n advices',
           'continu': 'Continue',
           'restore': 'Restore',
           'terms': 'Terms of Use',
@@ -210,7 +210,7 @@ class Language extends Translations {
           'features': 'Características:',
           'unlimited': 'Versión básica 47,99€\nPreguntas ilimitadas',
           'unli':
-              'Preguntas ilimitadas 97,99€\nPreguntas ilimitadas + 2 Consejo legal',
+              'Preguntas ilimitadas 97,99€\nPreguntas ilimitadas + 2\n Consejo legal',
           'continu': 'Continuar',
           'restore': 'Restaurar',
           'terms': 'Condiciones de uso',

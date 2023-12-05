@@ -55,7 +55,11 @@ class FAQScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final item = faqItems[index];
           return ExpansionTile(
-            title: Text(item.question),
+            textColor: Colors.black,
+            title: Text(
+              item.question,
+              style: TextStyle(color: Colors.black),
+            ),
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(16.0),

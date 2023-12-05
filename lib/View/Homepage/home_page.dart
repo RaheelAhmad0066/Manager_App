@@ -194,6 +194,7 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.white,
                 )),
             PopupMenuButton(
+                color: Colors.white,
                 onSelected: (value) {
                   if (value == 1) {
                     context.read<MessageProvider>().clearMessages(context);
